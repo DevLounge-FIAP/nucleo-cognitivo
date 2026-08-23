@@ -1,0 +1,69 @@
+ """
+    def cadastrar_registro():
+        # Aelton vai implementar aqui: gravar dado em txt/json
+        print("Função ainda não implementada.")
+
+    Formato: [YYYY-MM-DD HH:MM:SS] [NIVEL] [MODULO] - Mensagem descritiva da operacao
+
+    Níveis de classificação: INFO, AVISO, ERRO, CRITICO.
+
+
+    def consultar_registros():
+        # Aelton vai implementar aqui: ler dados salvos
+        print("Função ainda não implementada.")
+
+    def validar_regras_logicas():
+        # Maria vai implementar aqui: regra booleana simplificada
+        print("Função ainda não implementada.")
+
+    def exibir_prompt_estruturado():
+        # Bruno vai implementar aqui: prompt zero-shot/few-shot
+        print("Função ainda não implementada.")
+
+    def simulador_resposta_ia():
+        # Bruno vai implementar aqui: resposta simulada do "assistente"
+        print("Função ainda não implementada.")
+
+
+    def menu():
+
+        while True:
+
+            print("\n=== NÚCLEO COGNITIVO DA AURORA SIGER (NCAS) ===")
+            print("1. Cadastrar registro da colônia")
+            print("2. Consultar registros salvos")
+            print("3. Executar validação lógica")
+            print("4. Exibir prompt estruturado")
+            print("5. Simular resposta do assistente IA")
+            print("0. Sair")
+
+            opcao = input("Escolha uma opção: ")
+
+            if opcao == "1":
+                cadastrar_registro()
+
+            elif opcao == "2":
+                consultar_registros()
+
+            elif opcao == "3":
+                validar_regras_logicas()
+
+            elif opcao == "4":
+                exibir_prompt_estruturado()
+
+            elif opcao == "5":
+                simulador_resposta_ia()
+
+            elif opcao == "0":
+                print("Encerrando o sistema...")
+                break
+
+            else:
+                print("Opção inválida, tente novamente.")
+
+
+
+
+    menu()
+
+    """

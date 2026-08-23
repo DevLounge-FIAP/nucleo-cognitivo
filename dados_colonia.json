@@ -1,0 +1,27 @@
+{
+  "status_modulos": {
+    "suporte_vital": {
+      "estado": "ativo",
+      "nivel_oxigenio_percentual": 100.0,
+      "temperatura_interna_celsius": 22.5
+    },
+    "energia": {
+      "estado": "ativo",
+      "reserva_bateria_percentual": 100.0,
+      "consumo_kw": 450
+    },
+    "comunicacao": {
+      "estado": "ativo",
+      "latencia_ms": 45
+    }
+  },
+  "alertas_ativos": [
+    {
+      "id_alerta": 0,
+      "criticidade": "info",
+      "modulo": "sistema",
+      "mensagem": "Inicializacao padrao concluida",
+      "timestamp": "2026-08-23T00:00:00"
+    }
+  ]
+}
