@@ -53,13 +53,27 @@ def bloquear_operacao(falha_seguranca, inconsistencia_dados):
 # ---------------------------------------------------
 if __name__ == "__main__":
     print("Teste Cenário 1 - Consulta liberada:", liberar_consulta(True, True))
-    print("Teste Cenário 1 - Consulta liberada (módulo desligado):", liberar_consulta(True, False))
+    print(
+        "Teste Cenário 1 - Consulta liberada (módulo desligado):",
+        liberar_consulta(True, False),
+    )
 
     print("Teste Cenário 2 - Gerar alerta (falha crítica):", gerar_alerta(True, False))
-    print("Teste Cenário 2 - Gerar alerta (nenhum problema):", gerar_alerta(False, False))
+    print(
+        "Teste Cenário 2 - Gerar alerta (nenhum problema):", gerar_alerta(False, False)
+    )
 
     print("Teste Cenário 3 - Prioridade máxima:", prioridade_maxima(True, True))
-    print("Teste Cenário 3 - Prioridade máxima (setor comum):", prioridade_maxima(True, False))
+    print(
+        "Teste Cenário 3 - Prioridade máxima (setor comum):",
+        prioridade_maxima(True, False),
+    )
 
-    print("Teste Cenário 4 - Bloquear operação (inconsistência):", bloquear_operacao(False, True))
-    print("Teste Cenário 4 - Bloquear operação (tudo ok):", bloquear_operacao(False, False))
+    print(
+        "Teste Cenário 4 - Bloquear operação (inconsistência):",
+        bloquear_operacao(False, True),
+    )
+    print(
+        "Teste Cenário 4 - Bloquear operação (tudo ok):",
+        bloquear_operacao(False, False),
+    )
