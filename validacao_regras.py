@@ -37,7 +37,9 @@ def validar_funcao(nome_funcao, funcao, esperado_and):
         if resultado != esperado:
             tudo_ok = False
 
-        print(f"  entrada=({a}, {b}) -> resultado={resultado} | esperado={esperado} [{status}]")
+        print(
+            f"  entrada=({a}, {b}) -> resultado={resultado} | esperado={esperado} [{status}]"
+        )
 
     if tudo_ok:
         print(f"  -> {nome_funcao} passou em todas as combinacoes.")
@@ -51,13 +53,23 @@ if __name__ == "__main__":
     print("=== Validacao das regras logicas (todas as combinacoes possiveis) ===")
 
     resultados = []
-    resultados.append(validar_funcao("liberar_consulta (AND)", liberar_consulta, esperado_and=True))
-    resultados.append(validar_funcao("gerar_alerta (OR)", gerar_alerta, esperado_and=False))
-    resultados.append(validar_funcao("prioridade_maxima (AND)", prioridade_maxima, esperado_and=True))
-    resultados.append(validar_funcao("bloquear_operacao (OR)", bloquear_operacao, esperado_and=False))
+    resultados.append(
+        validar_funcao("liberar_consulta (AND)", liberar_consulta, esperado_and=True)
+    )
+    resultados.append(
+        validar_funcao("gerar_alerta (OR)", gerar_alerta, esperado_and=False)
+    )
+    resultados.append(
+        validar_funcao("prioridade_maxima (AND)", prioridade_maxima, esperado_and=True)
+    )
+    resultados.append(
+        validar_funcao("bloquear_operacao (OR)", bloquear_operacao, esperado_and=False)
+    )
 
     print("\n=== Resumo ===")
     if all(resultados):
-        print("Todas as regras logicas estao consistentes em todas as combinacoes possiveis.")
+        print(
+            "Todas as regras logicas estao consistentes em todas as combinacoes possiveis."
+        )
     else:
         print("Alguma regra apresentou inconsistencia. Ver detalhes acima.")
