@@ -1,6 +1,13 @@
-from codigo_fonte import ler_registro, validar_regras_logicas, cadastrar_registro, exibir_prompt_estruturado, simulador_resposta_ia
-from datetime import datetime
 import getpass
+from datetime import datetime
+
+from codigo_fonte import (
+    cadastrar_registro,
+    exibir_prompt_estruturado,
+    ler_registro,
+    simulador_resposta_ia,
+    validar_regras_logicas,
+)
 
 
 def menu():
