@@ -4,12 +4,11 @@ from datetime import datetime
 from codigo_fonte import (
     cadastrar_registro,
     exibir_prompt_estruturado,
+    limpar_registros,
     ler_registro,
     simulador_resposta_ia,
     validar_regras_logicas,
-    limpar_registros,
 )
-
 
 def menu():
     while True:
@@ -19,6 +18,7 @@ def menu():
         print("3. Executar validação lógica")
         print("4. Exibir prompt estruturado")
         print("5. Simular resposta do assistente IA")
+        print("6. Limpar registros")
         print("0. Sair")
 
         opcao = input("Escolha uma opção: ")
@@ -28,16 +28,19 @@ def menu():
            data_hora = datetime.now().strftime("%d/%m %H:%M")
            usuario = getpass.getuser()
            linha_formatada = f"[Data e Hora: {data_hora} Usuário: {usuario}]: {mensagem}"
-           cadastrar_registro(linha_formatada)
+           
+           if cadastrar_registro(linha_formatada):
+               print("Registro salvo com sucesso.")
+           else:
+               print("Falha ao salvar o registro. Verifique os logs do sistema.")
 
         elif opcao == "2":
-            conteudo = ler_registro()
-            if conteudo.strip() == "":
+            registros = ler_registro()
+            if not registros:
                  print("Nenhum registro encontrado.")
             else:
-                registros = conteudo.strip().split("\n")
                 for indice, registro in enumerate(registros, start=1):
-                    print(f"Registro {indice} {registro}")
+                    print(f"Registro {indice}: {registro}")
 
         elif opcao == "3":
             validar_regras_logicas()
@@ -52,7 +55,7 @@ def menu():
             if limpar_registros():
                 print("Registros limpos com sucesso.")
             else:
-                print("Erro ao limpar registros.")
+                print("Erro ao limpar registros. Verifique os logs do sistema.")
 
         elif opcao == "0":
             print("Encerrando o sistema...")
@@ -60,7 +63,6 @@ def menu():
 
         else:
             print("Opção inválida, tente novamente.")
-
 
 if __name__ == "__main__":
     menu()
