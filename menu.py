@@ -7,6 +7,7 @@ from codigo_fonte import (
     ler_registro,
     simulador_resposta_ia,
     validar_regras_logicas,
+    limpar_registros,
 )
 
 
@@ -47,10 +48,11 @@ def menu():
         elif opcao == "5":
             simulador_resposta_ia()
 
-        
-        #elif opcao == "6":
-        #    limpar_registro()
-            
+        elif opcao == "6":
+            if limpar_registros():
+                print("Registros limpos com sucesso.")
+            else:
+                print("Erro ao limpar registros.")
 
         elif opcao == "0":
             print("Encerrando o sistema...")

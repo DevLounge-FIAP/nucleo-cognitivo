@@ -62,6 +62,15 @@ def salvar_dados_colonia(dados: dict) -> bool:
     except OSError:
         return False
 
+def limpar_registros():
+    try:
+        with open('registros_colonia.txt', 'w', encoding='utf-8') as arquivo:
+            arquivo.write('')
+        return True
+    except OSError:
+        return False
+
+
 def validar_regras_logicas():
     # Maria vai implementar aqui: regra booleana simplificada
     print("Função ainda não implementada.")
