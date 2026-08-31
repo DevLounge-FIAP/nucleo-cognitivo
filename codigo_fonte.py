@@ -1,5 +1,8 @@
 import json
 
+ARQUIVO_REGISTROS = 'registros_colonia.txt'
+ARQUIVO_DADOS = 'dados_colonia.json'
+
 SCHEMA_BASE_JSON = {
     "status_modulos": {
         "suporte_vital": {
@@ -30,59 +33,54 @@ SCHEMA_BASE_JSON = {
 
 def cadastrar_registro(mensagem: str) -> bool:
     try:
-        with open('registros_colonia.txt', 'a', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_REGISTROS, 'a', encoding='utf-8') as arquivo:
             arquivo.write(mensagem + '\n')
         return True
-    except OSError:
+    except OSError as e:
+        print(f"Erro de I/O ao gravar registro: {e}")
         return False
 
-def ler_registro() -> str:
+def ler_registro() -> list[str]:
     try:
-        with open('registros_colonia.txt', 'r', encoding='utf-8') as arquivo:
-            return arquivo.read()
+        with open(ARQUIVO_REGISTROS, 'r', encoding='utf-8') as arquivo:
+            return [linha.strip() for linha in arquivo.readlines() if linha.strip()]
     except FileNotFoundError:
-        with open('registros_colonia.txt', 'w', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_REGISTROS, 'w', encoding='utf-8') as arquivo:
             pass 
-        return ""
+        return []
 
 def ler_dados_colonia() -> dict:
     try:
-        with open('dados_colonia.json', 'r', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_DADOS, 'r', encoding='utf-8') as arquivo:
             return json.load(arquivo)
     except (FileNotFoundError, json.JSONDecodeError):
-        with open('dados_colonia.json', 'w', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
             json.dump(SCHEMA_BASE_JSON, arquivo, indent=4)
         return SCHEMA_BASE_JSON
 
 def salvar_dados_colonia(dados: dict) -> bool:
     try:
-        with open('dados_colonia.json', 'w', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
             json.dump(dados, arquivo, indent=4)
         return True
-    except OSError:
+    except OSError as e:
+        print(f"Erro de I/O ao salvar dados: {e}")
         return False
 
-def limpar_registros():
+def limpar_registros() -> bool:
     try:
-        with open('registros_colonia.txt', 'w', encoding='utf-8') as arquivo:
-            arquivo.write('')
+        with open(ARQUIVO_REGISTROS, 'w', encoding='utf-8') as arquivo:
+            pass
         return True
-    except OSError:
+    except OSError as e:
+        print(f"Erro de I/O ao limpar registros: {e}")
         return False
-
 
 def validar_regras_logicas():
-    # Maria vai implementar aqui: regra booleana simplificada
     print("Função ainda não implementada.")
-
 
 def exibir_prompt_estruturado():
-    # Bruno vai implementar aqui: prompt zero-shot/few-shot
     print("Função ainda não implementada.")
-
 
 def simulador_resposta_ia():
-    # Bruno vai implementar aqui: resposta simulada do "assistente"
     print("Função ainda não implementada.")
-
-
