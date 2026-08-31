@@ -173,4 +173,4 @@ def simulador_resposta_ia():
     with open("historico_respostas.txt", "a", encoding="utf-8") as f:
         f.write(f"\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
 
-    print("\nSalvo em historico_respostas.txt")
+    print("\nSalvo em historico_respostas.txt")# atualizado
