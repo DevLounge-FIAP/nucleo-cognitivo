@@ -34,9 +34,9 @@ RESPOSTAS_ZERO_SHOT = {
     "energia": (
         "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
         "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Energia encontra-se ativo, com bateria em 100%\n"
-        "e consumo registrado de 450 kW.\n\n"
-        "Os registros indicam que os sistemas monitorados estão operacionais."
+        "O módulo de Energia registra consumo acima do limite permitido (500 kW).\n"
+        "Consumo atual: 520 kW. Situação de ATENÇÃO.\n\n"
+        "Os registros indicam necessidade de redistribuição de carga entre os módulos."
     ),
     "temperatura": (
         "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
@@ -51,13 +51,27 @@ RESPOSTAS_ZERO_SHOT = {
         "O módulo de Comunicação está ativo, apresentando latência de 45 ms.\n\n"
         "Os registros indicam operação dentro dos parâmetros normais."
     ),
+    "segurança": (
+        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
+        "ao funcionamento dos principais módulos da colônia.\n\n"
+        "Foi detectada uma falha de segurança no sistema da colônia.\n"
+        "Operações estão sendo bloqueadas por protocolo de proteção.\n\n"
+        "Os registros indicam situação CRÍTICA. Operação bloqueada até resolução."
+    ),
+    "inconsistência": (
+        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
+        "ao funcionamento dos principais módulos da colônia.\n\n"
+        "Foi detectada inconsistência nos dados armazenados do sistema.\n"
+        "Operações estão sendo bloqueadas por protocolo de segurança.\n\n"
+        "Os registros indicam necessidade de verificação e correção dos dados."
+    ),
     "padrão": (
         "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
         "ao funcionamento dos principais módulos da colônia.\n\n"
         "O módulo de Suporte Vital encontra-se ativo, com nível de oxigênio\n"
         "em 100% e temperatura interna registrada em 22,5 °C.\n\n"
-        "O módulo de Energia encontra-se ativo, com bateria em 100%\n"
-        "e consumo registrado de 450 kW.\n\n"
+        "O módulo de Energia encontra-se ativo, com consumo de 450 kW\n"
+        "(abaixo do limite de 500 kW).\n\n"
         "O módulo de Comunicação também está ativo, apresentando latência de 45 ms.\n\n"
         "Os registros indicam que os sistemas monitorados estão operacionais\n"
         "e que não há, nos dados consultados, uma ocorrência crítica registrada."
@@ -65,18 +79,20 @@ RESPOSTAS_ZERO_SHOT = {
 }
 
 RESPOSTAS_FEW_SHOT = {
-    "oxigênio":    "CRÍTICA",
-    "falha":       "CRÍTICA",
-    "radiação":    "CRÍTICA",
-    "pressão":     "CRÍTICA",
-    "temperatura": "ATENÇÃO",
-    "energia":     "ATENÇÃO",
-    "água":        "ATENÇÃO",
-    "comunicação": "ATENÇÃO",
-    "latência":    "ATENÇÃO",
-    "rotina":      "NORMAL",
-    "manutenção":  "NORMAL",
-    "padrão":      "NORMAL",
+    "oxigênio":       "CRÍTICA",
+    "falha":          "CRÍTICA",
+    "radiação":       "CRÍTICA",
+    "pressão":        "CRÍTICA",
+    "segurança":      "CRÍTICA",
+    "inconsistência": "CRÍTICA",
+    "temperatura":    "ATENÇÃO",
+    "energia":        "ATENÇÃO",
+    "água":           "ATENÇÃO",
+    "comunicação":    "ATENÇÃO",
+    "latência":       "ATENÇÃO",
+    "rotina":         "NORMAL",
+    "manutenção":     "NORMAL",
+    "padrão":         "NORMAL",
 }
 
 RESPOSTAS_STRUCTURED = {
@@ -91,8 +107,8 @@ RESPOSTAS_STRUCTURED = {
         "STATUS:       ATENÇÃO\n"
         "MODULO:       ENERGIA\n"
         "PRIORIDADE:   MÉDIA\n"
-        "PROBLEMA:     Sobrecarga detectada no módulo de distribuição de energia.\n"
-        "RECOMENDACAO: Redistribuir carga. Acionar equipe técnica para inspeção."
+        "PROBLEMA:     Consumo acima do limite de 500 kW. Consumo atual: 520 kW.\n"
+        "RECOMENDACAO: Redistribuir carga entre os módulos. Acionar equipe técnica."
     ),
     "temperatura": (
         "STATUS:       ATENÇÃO\n"
@@ -107,6 +123,20 @@ RESPOSTAS_STRUCTURED = {
         "PRIORIDADE:   MÉDIA\n"
         "PROBLEMA:     Latência elevada detectada no módulo de comunicação.\n"
         "RECOMENDACAO: Verificar canais de transmissão. Reiniciar roteadores de backup."
+    ),
+    "segurança": (
+        "STATUS:       CRÍTICA\n"
+        "MODULO:       SEGURANCA\n"
+        "PRIORIDADE:   ALTA\n"
+        "PROBLEMA:     Falha de segurança detectada. Operação bloqueada por protocolo.\n"
+        "RECOMENDACAO: Isolar módulo afetado. Acionar equipe de segurança imediatamente."
+    ),
+    "inconsistência": (
+        "STATUS:       CRÍTICA\n"
+        "MODULO:       DADOS\n"
+        "PRIORIDADE:   ALTA\n"
+        "PROBLEMA:     Inconsistência nos dados detectada. Operação bloqueada por segurança.\n"
+        "RECOMENDACAO: Verificar integridade dos dados. Restaurar backup se necessário."
     ),
     "padrão": (
         "STATUS:       NORMAL\n"
@@ -173,4 +203,4 @@ def simulador_resposta_ia():
     with open("historico_respostas.txt", "a", encoding="utf-8") as f:
         f.write(f"\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
 
-    print("\nSalvo em historico_respostas.txt")# atualizado
+    print("\nSalvo em historico_respostas.txt")
