@@ -1,27 +1,63 @@
 {
+  "colonia": "Aurora Siger",
+  "localizacao": "Planeta Marte - Cratera Gale",
   "status_modulos": {
     "suporte_vital": {
       "estado": "ativo",
-      "nivel_oxigenio_percentual": 100.0,
-      "temperatura_interna_celsius": 22.5
+      "nivel_oxigenio_percentual": 98.5,
+      "pressao_kpa": 101.3,
+      "temperatura_interna_celsius": 21.8
     },
     "energia": {
       "estado": "ativo",
-      "reserva_bateria_percentual": 100.0,
-      "consumo_kw": 450
+      "reserva_bateria_percentual": 87.4,
+      "consumo_kw": 465,
+      "fonte_primaria": "Reator Solar-Termico"
     },
     "comunicacao": {
       "estado": "ativo",
-      "latencia_ms": 45
+      "latencia_ms": 45,
+      "antena_deep_space": "sincronizada"
+    },
+    "estufa_hidroponica": {
+      "estado": "ativo",
+      "umidade_percentual": 68.0,
+      "nivel_nutrientes": "otimo"
     }
   },
   "alertas_ativos": [
     {
-      "id_alerta": 0,
-      "criticidade": "info",
-      "modulo": "sistema",
-      "mensagem": "Inicializacao padrao concluida",
-      "timestamp": "2026-08-23T00:00:00"
+      "id_alerta": 1,
+      "modulo": "suporte_vital",
+      "criticidade": "CRITICA",
+      "falha_critica": true,
+      "consumo_elevado": false,
+      "falha_seguranca": false,
+      "inconsistencia_dados": false,
+      "mensagem": "Queda rapida no suprimento de oxigenio do setor B",
+      "timestamp": "2026-09-05T08:14:22"
+    },
+    {
+      "id_alerta": 2,
+      "modulo": "energia",
+      "criticidade": "ATENCAO",
+      "falha_critica": false,
+      "consumo_elevado": true,
+      "falha_seguranca": false,
+      "inconsistencia_dados": false,
+      "mensagem": "Consumo energetico em 520 kW excedendo teto nominal de 500 kW",
+      "timestamp": "2026-09-05T09:30:00"
+    },
+    {
+      "id_alerta": 3,
+      "modulo": "comunicacao",
+      "criticidade": "ATENCAO",
+      "falha_critica": false,
+      "consumo_elevado": false,
+      "falha_seguranca": false,
+      "inconsistencia_dados": false,
+      "mensagem": "Latencia na telemetria com satelite de retransmissao orbital",
+      "timestamp": "2026-09-05T10:15:40"
     }
   ]
 }

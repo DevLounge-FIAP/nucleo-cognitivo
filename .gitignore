@@ -1,0 +1,19 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+
+# Distribution / Packaging (exceto entrega_nucleo_cognitivo.zip se desejar manter)
+dist/
+build/
+*.egg-info/

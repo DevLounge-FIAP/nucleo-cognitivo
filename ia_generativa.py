@@ -204,3 +204,32 @@ def simulador_resposta_ia():
         f.write(f"\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
 
     print("\nSalvo em historico_respostas.txt")
+
+
+def processar_analise_alerta(modulo: str, mensagem: str, e_critico: bool) -> tuple[str, str]:
+    """
+    Funcionalidade integradora (Seção 6.1 do PDF da FIAP):
+    Recebe um alerta lido do arquivo JSON, a avaliação da regra lógica booleana,
+    monta o prompt estruturado (Structured Output) e gera a resposta padronizada da IA.
+    """
+    registro_formatado = f"Módulo: {modulo.upper()} | Ocorrência: {mensagem} | Avaliação Lógica Booleana: {'CRÍTICA (Ação Emergencial)' if e_critico else 'ATENÇÃO / MONITORAMENTO'}"
+    prompt = PROMPT_STRUCTURED.replace("{REGISTRO}", registro_formatado)
+
+    # Busca a melhor resposta padronizada baseada em palavras-chave
+    resposta = _resposta(f"{modulo} {mensagem}", RESPOSTAS_STRUCTURED)
+
+    # Se a regra lógica sinalizou crítico mas a resposta padrão veio neutra, adequa o parecer
+    if e_critico and "STATUS:       NORMAL" in resposta:
+        resposta = (
+            f"STATUS:       CRÍTICA\n"
+            f"MODULO:       {modulo.upper()}\n"
+            f"PRIORIDADE:   ALTA\n"
+            f"PROBLEMA:     {mensagem}\n"
+            f"RECOMENDACAO: Intervenção técnica prioritária recomendada pela regra booleana de segurança."
+        )
+
+    with open("historico_respostas.txt", "a", encoding="utf-8") as f:
+        f.write(f"\n--- ANÁLISE INTEGRADORA DE ALERTA (JSON + BOOLEANA + IA) ---\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
+
+    return prompt, resposta
+

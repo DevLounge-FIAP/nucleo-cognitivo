@@ -1,68 +1,26 @@
-import getpass
-from datetime import datetime
+"""
+================================================================================
+PROJETO: Núcleo Cognitivo da Aurora Siger (NCAS)
+ARQUIVO: menu.py
+FINALIDADE: Ponto de entrada amigável para navegação no terminal,
+            garantindo sincronia total com o arquivo principal 'codigo_fonte.py'.
+================================================================================
+"""
 
 from codigo_fonte import (
     cadastrar_registro,
-    exibir_prompt_estruturado,
-    limpar_registros,
     ler_registro,
-    simulador_resposta_ia,
+    limpar_registros,
+    ler_dados_colonia,
+    salvar_dados_colonia,
+    exibir_status_colonia,
     validar_regras_logicas,
+    exibir_prompt_estruturado,
+    simulador_resposta_ia,
+    analisar_alerta_operacional,
+    cadastrar_novo_alerta_json,
+    menu,
 )
-
-def menu():
-    while True:
-        print("\n=== NÚCLEO COGNITIVO DA AURORA SIGER (NCAS) ===")
-        print("1. Cadastrar registro da colônia")
-        print("2. Consultar registros salvos")
-        print("3. Executar validação lógica")
-        print("4. Exibir prompt estruturado")
-        print("5. Simular resposta do assistente IA")
-        print("6. Limpar registros")
-        print("0. Sair")
-
-        opcao = input("Escolha uma opção: ")
-
-        if opcao == "1":
-           mensagem = input("Digite o registro: ")
-           data_hora = datetime.now().strftime("%d/%m %H:%M")
-           usuario = getpass.getuser()
-           linha_formatada = f"[Data e Hora: {data_hora} Usuário: {usuario}]: {mensagem}"
-           
-           if cadastrar_registro(linha_formatada):
-               print("Registro salvo com sucesso.")
-           else:
-               print("Falha ao salvar o registro. Verifique os logs do sistema.")
-
-        elif opcao == "2":
-            registros = ler_registro()
-            if not registros:
-                 print("Nenhum registro encontrado.")
-            else:
-                for indice, registro in enumerate(registros, start=1):
-                    print(f"Registro {indice}: {registro}")
-
-        elif opcao == "3":
-            validar_regras_logicas()
-
-        elif opcao == "4":
-            exibir_prompt_estruturado()
-
-        elif opcao == "5":
-            simulador_resposta_ia()
-
-        elif opcao == "6":
-            if limpar_registros():
-                print("Registros limpos com sucesso.")
-            else:
-                print("Erro ao limpar registros. Verifique os logs do sistema.")
-
-        elif opcao == "0":
-            print("Encerrando o sistema...")
-            break
-
-        else:
-            print("Opção inválida, tente novamente.")
 
 if __name__ == "__main__":
     menu()

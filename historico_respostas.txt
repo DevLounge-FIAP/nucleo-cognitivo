@@ -55,3 +55,54 @@ MODULO:       CENTRAL
 PRIORIDADE:   BAIXA
 PROBLEMA:     Nenhum problema identificado no registro analisado.
 RECOMENDACAO: Manter monitoramento de rotina conforme protocolo.
+
+--- ANÁLISE INTEGRADORA DE ALERTA (JSON + BOOLEANA + IA) ---
+PROMPT:
+Analise o registro e responda neste formato:
+STATUS: [NORMAL/ATENÇÃO/CRÍTICA]
+MODULO: [nome]
+PRIORIDADE: [BAIXA/MÉDIA/ALTA]
+PROBLEMA: [descrição]
+RECOMENDACAO: [orientação]
+
+Registro: Módulo: SUPORTE_VITAL | Ocorrência: Queda rapida no suprimento de oxigenio do setor B | Avaliação Lógica Booleana: CRÍTICA (Ação Emergencial)
+RESPOSTA:
+STATUS:       CRÍTICA
+MODULO:       SUPORTE_VITAL
+PRIORIDADE:   ALTA
+PROBLEMA:     Queda rapida no suprimento de oxigenio do setor B
+RECOMENDACAO: Intervenção técnica prioritária recomendada pela regra booleana de segurança.
+
+--- ANÁLISE INTEGRADORA DE ALERTA (JSON + BOOLEANA + IA) ---
+PROMPT:
+Analise o registro e responda neste formato:
+STATUS: [NORMAL/ATENÇÃO/CRÍTICA]
+MODULO: [nome]
+PRIORIDADE: [BAIXA/MÉDIA/ALTA]
+PROBLEMA: [descrição]
+RECOMENDACAO: [orientação]
+
+Registro: Módulo: SUPORTE_VITAL | Ocorrência: Queda rapida no suprimento de oxigenio do setor B | Avaliação Lógica Booleana: CRÍTICA (Ação Emergencial)
+RESPOSTA:
+STATUS:       CRÍTICA
+MODULO:       SUPORTE_VITAL
+PRIORIDADE:   ALTA
+PROBLEMA:     Queda rapida no suprimento de oxigenio do setor B
+RECOMENDACAO: Intervenção técnica prioritária recomendada pela regra booleana de segurança.
+
+--- ANÁLISE INTEGRADORA DE ALERTA (JSON + BOOLEANA + IA) ---
+PROMPT:
+Analise o registro e responda neste formato:
+STATUS: [NORMAL/ATENÇÃO/CRÍTICA]
+MODULO: [nome]
+PRIORIDADE: [BAIXA/MÉDIA/ALTA]
+PROBLEMA: [descrição]
+RECOMENDACAO: [orientação]
+
+Registro: Módulo: SUPORTE_VITAL | Ocorrência: Falha no sensor de O2 | Avaliação Lógica Booleana: CRÍTICA (Ação Emergencial)
+RESPOSTA:
+STATUS:       CRÍTICA
+MODULO:       SUPORTE_VITAL
+PRIORIDADE:   ALTA
+PROBLEMA:     Falha no sensor de O2
+RECOMENDACAO: Intervenção técnica prioritária recomendada pela regra booleana de segurança.
