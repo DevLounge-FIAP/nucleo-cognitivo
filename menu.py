@@ -1,14 +1,20 @@
 import getpass
 from datetime import datetime
-
 from codigo_fonte import (
     cadastrar_registro,
-    exibir_prompt_estruturado,
     limpar_registros,
     ler_registro,
-    simulador_resposta_ia,
     validar_regras_logicas,
+    exibir_dados_colonia,
 )
+
+from ia_generativa import (
+ exibir_prompt_estruturado,
+ simulador_resposta_ia,
+ listar_topicos_disponiveis,
+)
+
+
 
 def menu():
     while True:
@@ -16,9 +22,11 @@ def menu():
         print("1. Cadastrar registro da colônia")
         print("2. Consultar registros salvos")
         print("3. Executar validação lógica")
-        print("4. Exibir prompt estruturado")
-        print("5. Simular resposta do assistente IA")
-        print("6. Limpar registros")
+        print("4. Ver palavras-chaves que a IA reconhece")
+        print("5. Exibir prompt estruturado")
+        print("6. Simular resposta do assistente IA")
+        print("7. Limpar registros")
+        print("8. Carregar dados da colônia (JSON)")
         print("0. Sair")
 
         opcao = input("Escolha uma opção: ")
@@ -46,16 +54,22 @@ def menu():
             validar_regras_logicas()
 
         elif opcao == "4":
-            exibir_prompt_estruturado()
+            listar_topicos_disponiveis()
 
         elif opcao == "5":
-            simulador_resposta_ia()
+            exibir_prompt_estruturado()
 
         elif opcao == "6":
+            simulador_resposta_ia()
+
+        elif opcao == "7":
             if limpar_registros():
                 print("Registros limpos com sucesso.")
             else:
                 print("Erro ao limpar registros. Verifique os logs do sistema.")
+
+        elif opcao == "8":
+            exibir_dados_colonia()
 
         elif opcao == "0":
             print("Encerrando o sistema...")

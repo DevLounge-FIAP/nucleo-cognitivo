@@ -84,3 +84,24 @@ def exibir_prompt_estruturado():
 
 def simulador_resposta_ia():
     print("Função ainda não implementada.")
+
+
+def exibir_dados_colonia():
+    dados = ler_dados_colonia()
+
+    print("\n=== STATUS DOS MÓDULOS DA COLÔNIA ===")
+    for modulo, info in dados["status_modulos"].items():
+        print(f"\nMódulo: {modulo.replace('_', ' ').title()}")
+        for chave, valor in info.items():
+            print(f"  {chave.replace('_', ' ').capitalize()}: {valor}")
+
+    print("\n=== ALERTAS ATIVOS ===")
+    if not dados["alertas_ativos"]:
+        print("Nenhum alerta ativo.")
+    else:
+        for alerta in dados["alertas_ativos"]:
+            print(f"\nID: {alerta['id_alerta']}")
+            print(f"  Criticidade: {alerta['criticidade']}")
+            print(f"  Módulo: {alerta['modulo']}")
+            print(f"  Mensagem: {alerta['mensagem']}")
+            print(f"  Timestamp: {alerta['timestamp']}")

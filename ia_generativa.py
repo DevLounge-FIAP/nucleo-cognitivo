@@ -1,5 +1,3 @@
-import json
-
 PROMPT_ZERO_SHOT = """Você é o Assistente Cognitivo da Aurora Siger.
 Analise os registros e apresente um resumo. Não invente informações.
 
@@ -23,135 +21,154 @@ RECOMENDACAO: [orientação]
 
 Registro: {REGISTRO}"""
 
-RESPOSTAS_ZERO_SHOT = {
-    "oxigênio": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Suporte Vital encontra-se com nível de oxigênio reduzido.\n"
-        "Situação requer atenção imediata da equipe técnica.\n\n"
-        "Os registros indicam uma condição de risco no sistema de suporte vital."
-    ),
-    "energia": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Energia registra consumo acima do limite permitido (500 kW).\n"
-        "Consumo atual: 520 kW. Situação de ATENÇÃO.\n\n"
-        "Os registros indicam necessidade de redistribuição de carga entre os módulos."
-    ),
-    "temperatura": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Habitat registra variação de temperatura acima do limite.\n"
-        "Temperatura interna: 22,5 °C.\n\n"
-        "Os registros indicam necessidade de verificação do sistema de climatização."
-    ),
-    "comunicação": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Comunicação está ativo, apresentando latência de 45 ms.\n\n"
-        "Os registros indicam operação dentro dos parâmetros normais."
-    ),
-    "segurança": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "Foi detectada uma falha de segurança no sistema da colônia.\n"
-        "Operações estão sendo bloqueadas por protocolo de proteção.\n\n"
-        "Os registros indicam situação CRÍTICA. Operação bloqueada até resolução."
-    ),
-    "inconsistência": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "Foi detectada inconsistência nos dados armazenados do sistema.\n"
-        "Operações estão sendo bloqueadas por protocolo de segurança.\n\n"
-        "Os registros indicam necessidade de verificação e correção dos dados."
-    ),
-    "padrão": (
-        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
-        "ao funcionamento dos principais módulos da colônia.\n\n"
-        "O módulo de Suporte Vital encontra-se ativo, com nível de oxigênio\n"
-        "em 100% e temperatura interna registrada em 22,5 °C.\n\n"
-        "O módulo de Energia encontra-se ativo, com consumo de 450 kW\n"
-        "(abaixo do limite de 500 kW).\n\n"
-        "O módulo de Comunicação também está ativo, apresentando latência de 45 ms.\n\n"
-        "Os registros indicam que os sistemas monitorados estão operacionais\n"
-        "e que não há, nos dados consultados, uma ocorrência crítica registrada."
-    ),
+# ---------------------------------------------------------------------------
+# TABELA CENTRAL DE TÓPICOS — fonte única de verdade.
+# Cada tópico é escrito UMA vez aqui. Os 3 formatos de resposta (zero-shot,
+# few-shot, structured) são gerados a partir destes mesmos dados, então
+# nunca ficam desalinhados entre si.
+# Chaves sem acento de propósito: o texto do usuário é normalizado antes
+# de comparar, então comparamos sempre "sem acento" dos dois lados.
+# ---------------------------------------------------------------------------
+TOPICOS = {
+    "oxigenio": {
+        "status": "CRÍTICA",
+        "modulo": "SUPORTE_VITAL",
+        "prioridade": "ALTA",
+        "problema": "Redução do nível de oxigênio para 72%, indicando condição de risco.",
+        "recomendacao": "Verificar imediatamente o fornecimento de oxigênio e restabelecer o nível.",
+    },
+    "falha": {
+        "status": "CRÍTICA",
+        "modulo": "SISTEMA",
+        "prioridade": "ALTA",
+        "problema": "Falha geral detectada em um dos sistemas da colônia.",
+        "recomendacao": "Isolar o sistema afetado e acionar a equipe técnica imediatamente.",
+    },
+    "radiacao": {
+        "status": "CRÍTICA",
+        "modulo": "BLINDAGEM",
+        "prioridade": "ALTA",
+        "problema": "Nível de radiação acima do limite seguro detectado pelos sensores externos.",
+        "recomendacao": "Ativar blindagem de emergência e restringir o acesso às áreas expostas.",
+    },
+    "pressao": {
+        "status": "CRÍTICA",
+        "modulo": "HABITAT",
+        "prioridade": "ALTA",
+        "problema": "Variação crítica de pressão interna detectada no habitat.",
+        "recomendacao": "Verificar vedação das câmaras e acionar o protocolo de despressurização controlada.",
+    },
+    "seguranca": {
+        "status": "CRÍTICA",
+        "modulo": "SEGURANCA",
+        "prioridade": "ALTA",
+        "problema": "Falha de segurança detectada. Operação bloqueada por protocolo.",
+        "recomendacao": "Isolar módulo afetado. Acionar equipe de segurança imediatamente.",
+    },
+    "inconsistencia": {
+        "status": "CRÍTICA",
+        "modulo": "DADOS",
+        "prioridade": "ALTA",
+        "problema": "Inconsistência nos dados detectada. Operação bloqueada por segurança.",
+        "recomendacao": "Verificar integridade dos dados. Restaurar backup se necessário.",
+    },
+    "temperatura": {
+        "status": "ATENÇÃO",
+        "modulo": "HABITAT",
+        "prioridade": "MÉDIA",
+        "problema": "Variação de temperatura acima do limite permitido (+4 °C).",
+        "recomendacao": "Verificar climatização. Monitorar a cada 30 minutos.",
+    },
+    "energia": {
+        "status": "ATENÇÃO",
+        "modulo": "ENERGIA",
+        "prioridade": "MÉDIA",
+        "problema": "Consumo acima do limite de 500 kW. Consumo atual: 520 kW.",
+        "recomendacao": "Redistribuir carga entre os módulos. Acionar equipe técnica.",
+    },
+    "agua": {
+        "status": "ATENÇÃO",
+        "modulo": "SUPORTE_VITAL",
+        "prioridade": "MÉDIA",
+        "problema": "Nível de reserva de água abaixo do recomendado para operação segura.",
+        "recomendacao": "Acionar sistema de reciclagem hídrica e monitorar o consumo.",
+    },
+    "comunicacao": {
+        "status": "ATENÇÃO",
+        "modulo": "COMUNICACAO",
+        "prioridade": "MÉDIA",
+        "problema": "Latência elevada detectada no módulo de comunicação.",
+        "recomendacao": "Verificar canais de transmissão. Reiniciar roteadores de backup.",
+    },
+    "padrao": {
+        "status": "NORMAL",
+        "modulo": "CENTRAL",
+        "prioridade": "BAIXA",
+        "problema": "Nenhum problema identificado no registro analisado.",
+        "recomendacao": "Manter monitoramento de rotina conforme protocolo.",
+    },
 }
 
-RESPOSTAS_FEW_SHOT = {
-    "oxigênio":       "CRÍTICA",
-    "falha":          "CRÍTICA",
-    "radiação":       "CRÍTICA",
-    "pressão":        "CRÍTICA",
-    "segurança":      "CRÍTICA",
-    "inconsistência": "CRÍTICA",
-    "temperatura":    "ATENÇÃO",
-    "energia":        "ATENÇÃO",
-    "água":           "ATENÇÃO",
-    "comunicação":    "ATENÇÃO",
-    "latência":       "ATENÇÃO",
-    "rotina":         "NORMAL",
-    "manutenção":     "NORMAL",
-    "padrão":         "NORMAL",
+# Palavras que o usuário pode digitar e que na verdade se referem a um
+# tópico que já existe acima — sem precisar duplicar os dados de novo.
+SINONIMOS = {
+    "latencia": "comunicacao",
+    "rotina": "padrao",
+    "manutencao": "padrao",
 }
 
-RESPOSTAS_STRUCTURED = {
-    "oxigênio": (
-        "STATUS:       CRÍTICA\n"
-        "MODULO:       SUPORTE_VITAL\n"
-        "PRIORIDADE:   ALTA\n"
-        "PROBLEMA:     Redução do nível de oxigênio para 72%, indicando condição de risco.\n"
-        "RECOMENDACAO: Verificar imediatamente o fornecimento de oxigênio e restabelecer o nível."
-    ),
-    "energia": (
-        "STATUS:       ATENÇÃO\n"
-        "MODULO:       ENERGIA\n"
-        "PRIORIDADE:   MÉDIA\n"
-        "PROBLEMA:     Consumo acima do limite de 500 kW. Consumo atual: 520 kW.\n"
-        "RECOMENDACAO: Redistribuir carga entre os módulos. Acionar equipe técnica."
-    ),
-    "temperatura": (
-        "STATUS:       ATENÇÃO\n"
-        "MODULO:       HABITAT\n"
-        "PRIORIDADE:   MÉDIA\n"
-        "PROBLEMA:     Variação de temperatura acima do limite permitido (+4 °C).\n"
-        "RECOMENDACAO: Verificar climatização. Monitorar a cada 30 minutos."
-    ),
-    "comunicação": (
-        "STATUS:       ATENÇÃO\n"
-        "MODULO:       COMUNICACAO\n"
-        "PRIORIDADE:   MÉDIA\n"
-        "PROBLEMA:     Latência elevada detectada no módulo de comunicação.\n"
-        "RECOMENDACAO: Verificar canais de transmissão. Reiniciar roteadores de backup."
-    ),
-    "segurança": (
-        "STATUS:       CRÍTICA\n"
-        "MODULO:       SEGURANCA\n"
-        "PRIORIDADE:   ALTA\n"
-        "PROBLEMA:     Falha de segurança detectada. Operação bloqueada por protocolo.\n"
-        "RECOMENDACAO: Isolar módulo afetado. Acionar equipe de segurança imediatamente."
-    ),
-    "inconsistência": (
-        "STATUS:       CRÍTICA\n"
-        "MODULO:       DADOS\n"
-        "PRIORIDADE:   ALTA\n"
-        "PROBLEMA:     Inconsistência nos dados detectada. Operação bloqueada por segurança.\n"
-        "RECOMENDACAO: Verificar integridade dos dados. Restaurar backup se necessário."
-    ),
-    "padrão": (
-        "STATUS:       NORMAL\n"
-        "MODULO:       CENTRAL\n"
-        "PRIORIDADE:   BAIXA\n"
-        "PROBLEMA:     Nenhum problema identificado no registro analisado.\n"
-        "RECOMENDACAO: Manter monitoramento de rotina conforme protocolo."
-    ),
-}
 
-def _resposta(texto, dicionario):
-    for chave in dicionario:
-        if chave != "padrão" and chave in texto.lower():
-            return dicionario[chave]
-    return dicionario["padrão"]
+_TABELA_SEM_ACENTO = str.maketrans(
+    "áàãâäéèêëíìîïóòõôöúùûüç",
+    "aaaaaeeeeiiiiooooouuuuc",
+)
+
+
+def _normalizar(texto: str) -> str:
+    """Remove acentos e caixa alta/baixa, pra comparação ficar tolerante
+    a 'Oxigênio', 'oxigenio' e 'OXIGÊNIO' significarem a mesma coisa.
+    Usa apenas string e dicionário (str.maketrans/translate), sem depender
+    de bibliotecas fora do conteúdo estudado no curso."""
+    return texto.lower().translate(_TABELA_SEM_ACENTO)
+
+
+def _localizar_topico(texto: str):
+    """Procura no texto digitado alguma palavra-chave conhecida (tópico
+    ou sinônimo) e devolve os dados desse tópico. Devolve None se nada
+    bater — ou seja, texto fora do escopo da IA."""
+    texto_normalizado = _normalizar(texto)
+
+    for chave, topico_id in SINONIMOS.items():
+        if chave in texto_normalizado:
+            return TOPICOS[topico_id]
+
+    for chave, dados in TOPICOS.items():
+        if chave != "padrao" and chave in texto_normalizado:
+            return dados
+
+    return None
+
+
+def _resumo_zero_shot(topico: dict) -> str:
+    modulo_legivel = topico["modulo"].replace("_", " ").title()
+    return (
+        "O Núcleo Cognitivo da Aurora Siger possui registros relacionados\n"
+        "ao funcionamento dos principais módulos da colônia.\n\n"
+        f"O módulo de {modulo_legivel} apresenta a seguinte ocorrência:\n"
+        f"{topico['problema']}\n\n"
+        f"Recomendação: {topico['recomendacao']}"
+    )
+
+
+def _resposta_structured(topico: dict) -> str:
+    return (
+        f"STATUS:       {topico['status']}\n"
+        f"MODULO:       {topico['modulo']}\n"
+        f"PRIORIDADE:   {topico['prioridade']}\n"
+        f"PROBLEMA:     {topico['problema']}\n"
+        f"RECOMENDACAO: {topico['recomendacao']}"
+    )
+
 
 def exibir_prompt_estruturado():
     print("\n1 - Zero-shot  |  2 - Few-shot  |  3 - Structured Output")
@@ -159,18 +176,28 @@ def exibir_prompt_estruturado():
 
     if escolha == "1":
         texto = input("Digite os registros: ")
+        if _localizar_topico(texto) is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         print("\n" + PROMPT_ZERO_SHOT.replace("{REGISTROS}", texto))
 
     elif escolha == "2":
         texto = input("Descreva a ocorrência: ")
+        if _localizar_topico(texto) is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         print("\n" + PROMPT_FEW_SHOT.replace("{OCORRENCIA}", texto))
 
     elif escolha == "3":
         texto = input("Digite o registro: ")
+        if _localizar_topico(texto) is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         print("\n" + PROMPT_STRUCTURED.replace("{REGISTRO}", texto))
 
     else:
         print("Opção inválida.")
+
 
 def simulador_resposta_ia():
     print("\n1 - Zero-shot  |  2 - Few-shot  |  3 - Structured Output")
@@ -178,18 +205,30 @@ def simulador_resposta_ia():
 
     if escolha == "1":
         texto = input("Digite os registros: ")
+        topico = _localizar_topico(texto)
+        if topico is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         prompt = PROMPT_ZERO_SHOT.replace("{REGISTROS}", texto)
-        resposta = _resposta(texto, RESPOSTAS_ZERO_SHOT)
+        resposta = _resumo_zero_shot(topico)
 
     elif escolha == "2":
         texto = input("Descreva a ocorrência: ")
+        topico = _localizar_topico(texto)
+        if topico is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         prompt = PROMPT_FEW_SHOT.replace("{OCORRENCIA}", texto)
-        resposta = _resposta(texto, RESPOSTAS_FEW_SHOT)
+        resposta = topico["status"]
 
     elif escolha == "3":
         texto = input("Digite o registro: ")
+        topico = _localizar_topico(texto)
+        if topico is None:
+            print("\nIsso foge do escopo de análise da IA da colônia.")
+            return
         prompt = PROMPT_STRUCTURED.replace("{REGISTRO}", texto)
-        resposta = _resposta(texto, RESPOSTAS_STRUCTURED)
+        resposta = _resposta_structured(topico)
 
     else:
         print("Opção inválida.")
@@ -204,3 +243,16 @@ def simulador_resposta_ia():
         f.write(f"\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
 
     print("\nSalvo em historico_respostas.txt")
+
+def listar_topicos_disponiveis():
+    print("\n=== PALAVRAS-CHAVE QUE A IA RECONHECE ===")
+    print("Digite algo relacionado a um destes temas nas opções 4 e 5:\n")
+
+    for chave in TOPICOS:
+        if chave != "padrao":
+            print(f"  - {chave}")
+
+    if SINONIMOS:
+        print("\nTambém funcionam (equivalentes aos de cima):")
+        for sinonimo, alvo in SINONIMOS.items():
+            print(f"  - {sinonimo} (mesmo caso de '{alvo}')")
