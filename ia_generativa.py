@@ -244,9 +244,10 @@ def simulador_resposta_ia():
 
     print("\nSalvo em historico_respostas.txt")
 
+
 def listar_topicos_disponiveis():
     print("\n=== PALAVRAS-CHAVE QUE A IA RECONHECE ===")
-    print("Digite algo relacionado a um destes temas nas opções 4 e 5:\n")
+    print("Digite algo relacionado a um destes temas nas opções 5 e 6:\n")
 
     for chave in TOPICOS:
         if chave != "padrao":
@@ -256,3 +257,39 @@ def listar_topicos_disponiveis():
         print("\nTambém funcionam (equivalentes aos de cima):")
         for sinonimo, alvo in SINONIMOS.items():
             print(f"  - {sinonimo} (mesmo caso de '{alvo}')")
+
+
+def processar_analise_alerta(modulo: str, mensagem: str, e_critico: bool) -> tuple[str, str]:
+    """Gera o prompt estruturado e a resposta simulada da IA para um alerta
+    que já vem do fluxo integrado (JSON + regra booleana). Diferente das
+    opções 5 e 6, aqui o status não é descoberto por palavra-chave — ele
+    já chega pronto, decidido pela regra lógica booleana (gerar_alerta /
+    bloquear_operacao em regras_logicas.py)."""
+    status = "CRÍTICA" if e_critico else "ATENÇÃO"
+    prioridade = "ALTA" if e_critico else "MÉDIA"
+    modulo_legivel = modulo.upper()
+    recomendacao = (
+        "Intervenção técnica prioritária recomendada pela regra booleana de segurança."
+        if e_critico else
+        "Monitorar o módulo e reavaliar na próxima verificação de rotina."
+    )
+
+    registro_formatado = (
+        f"Módulo: {modulo_legivel} | Ocorrência: {mensagem} | "
+        f"Avaliação Lógica Booleana: {status} "
+        f"({'Ação Emergencial' if e_critico else 'Monitoramento'})"
+    )
+    prompt = PROMPT_STRUCTURED.replace("{REGISTRO}", registro_formatado)
+
+    resposta = (
+        f"STATUS:       {status}\n"
+        f"MODULO:       {modulo_legivel}\n"
+        f"PRIORIDADE:   {prioridade}\n"
+        f"PROBLEMA:     {mensagem}\n"
+        f"RECOMENDACAO: {recomendacao}"
+    )
+
+    with open("historico_respostas.txt", "a", encoding="utf-8") as f:
+        f.write(f"\nPROMPT:\n{prompt}\nRESPOSTA:\n{resposta}\n")
+
+    return prompt, resposta

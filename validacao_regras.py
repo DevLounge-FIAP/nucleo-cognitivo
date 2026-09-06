@@ -49,27 +49,31 @@ def validar_funcao(nome_funcao, funcao, esperado_and):
     return tudo_ok
 
 
-if __name__ == "__main__":
-    print("=== Validacao das regras logicas (todas as combinacoes possiveis) ===")
+def executar_validacao_completa() -> bool:
+    print("\n=== Validação das Regras Lógicas da Aurora Siger (Tabela-Verdade) ===")
 
     resultados = []
     resultados.append(
-        validar_funcao("liberar_consulta (AND)", liberar_consulta, esperado_and=True)
+        validar_funcao("liberar_consulta (AND: AUTORIZADO AND MODULO_ATIVO)", liberar_consulta, esperado_and=True)
     )
     resultados.append(
-        validar_funcao("gerar_alerta (OR)", gerar_alerta, esperado_and=False)
+        validar_funcao("gerar_alerta (OR: FALHA_CRITICA OR CONSUMO_ELEVADO)", gerar_alerta, esperado_and=False)
     )
     resultados.append(
-        validar_funcao("prioridade_maxima (AND)", prioridade_maxima, esperado_and=True)
+        validar_funcao("prioridade_maxima (AND: URGENTE AND SETOR_ESSENCIAL)", prioridade_maxima, esperado_and=True)
     )
     resultados.append(
-        validar_funcao("bloquear_operacao (OR)", bloquear_operacao, esperado_and=False)
+        validar_funcao("bloquear_operacao (De Morgan: FALHA_SEGURANCA OR INCONSISTENCIA_DADOS)", bloquear_operacao, esperado_and=False)
     )
 
-    print("\n=== Resumo ===")
+    print("\n=== Resumo da Verificação Lógica ===")
     if all(resultados):
-        print(
-            "Todas as regras logicas estao consistentes em todas as combinacoes possiveis."
-        )
+        print("✔ Todas as regras lógicas estão consistentes em todas as 16 combinações possíveis.")
+        return True
     else:
-        print("Alguma regra apresentou inconsistencia. Ver detalhes acima.")
+        print("✖ Alguma regra apresentou inconsistência. Ver detalhes acima.")
+        return False
+
+
+if __name__ == "__main__":
+    executar_validacao_completa()
