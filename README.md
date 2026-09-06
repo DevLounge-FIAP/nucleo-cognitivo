@@ -50,26 +50,26 @@ O projeto integra de forma prática as seis frentes de conhecimento da fase:
 
 Conforme estipulado na **Seção 6.2 do Edital da FIAP**, os arquivos obrigatórios e complementares organizam-se da seguinte forma:
 
-```
+'''
 nucleo-cognitivo/
 │
-├── codigo_fonte.py          # [OBRIGATÓRIO] Arquivo principal executável do sistema
-├── dados_colonia.json       # [OBRIGATÓRIO] Dados estruturados dos módulos e alertas da colônia
-├── registros_colonia.txt    # [OBRIGATÓRIO] Registros cronológicos e logs operacionais
-├── regras_logicas.pdf       # [OBRIGATÓRIO] Demonstração teórica das expressões e De Morgan
-├── prompts_utilizados.pdf   # [OBRIGATÓRIO] Documentação dos modelos de prompts estruturados
-├── link_video.txt           # [OBRIGATÓRIO] Arquivo contendo o link do YouTube (Não listado)
+├── codigo_fonte.py # [OBRIGATÓRIO] Arquivo principal e único ponto de entrada (inclui o menu do terminal)
+├── dados_colonia.json # [OBRIGATÓRIO] Dados estruturados dos módulos e alertas da colônia
+├── registros_colonia.txt # [OBRIGATÓRIO] Registros cronológicos e logs operacionais
+├── regras_logicas.pdf # [OBRIGATÓRIO] Demonstração teórica das expressões e De Morgan
+├── prompts_utilizados.pdf # [OBRIGATÓRIO] Documentação dos modelos de prompts estruturados
+├── link_video.txt # [OBRIGATÓRIO] Arquivo contendo o link do YouTube (Não listado)
 │
-├── regras_logicas.py        # [CÓDIGO] Módulo Python com as funções booleanas puras
-├── validacao_regras.py      # [CÓDIGO] Script de validação automática por tabela-verdade
-├── ia_generativa.py         # [CÓDIGO] Motor de simulação de prompts e respostas do assistente
-├── menu.py                  # [CÓDIGO] Ponto de entrada secundário para o terminal
-├── historico_respostas.txt  # [LOGS] Histórico persistente de pareceres emitidos pela IA
-├── gerar_entrega_zip.py     # [UTIL] Script automatizado de validação e criação do .zip
-└── README.md                # [DOCS] Documentação técnica e científica integral
-```
+├── regras_logicas.py # [CÓDIGO] Módulo Python com as funções booleanas puras
+├── validacao_regras.py # [CÓDIGO] Script de validação automática por tabela-verdade
+├── ia_generativa.py # [CÓDIGO] Motor de simulação de prompts e respostas do assistente
+├── historico_respostas.txt # [LOGS] Histórico persistente de pareceres emitidos pela IA
+├── gerar_entrega_zip.py # [UTIL] Script automatizado de validação e criação do .zip
+└── README.md # [DOCS] Documentação técnica e científica integral
+
 
 ---
+'''
 
 ## 💾 Armazenamento de Dados: Justificativa Técnica (TXT vs JSON)
 
@@ -94,27 +94,27 @@ O sistema utiliza dois paradigmas de persistência em arquivos físicos:
 
 A manipulação de arquivos em Python reflete diretamente a arquitetura de hardware subjacente:
 
-```
+'''
 +-------------------------------------------------------------------------+
-|                               CPU (Processador)                         |
-|   [Registradores] <---> [ALU / Lógica Booleana] <---> [Caches L1/L2/L3] |
+| CPU (Processador) |
+| [Registradores] <---> [ALU / Lógica Booleana] <---> [Caches L1/L2/L3] |
 +-------------------------------------------------------------------------+
-                                    ▲
-                         BARRAMENTO DO SISTEMA (BUS)
-          [Barramento de Dados | Barramento de Endereço | Barramento de Controle]
-                                    ▼
+▲
+BARRAMENTO DO SISTEMA (BUS)
+[Barramento de Dados | Barramento de Endereço | Barramento de Controle]
+▼
 +-------------------------------------------------------------------------+
-|                        MEMÓRIA PRINCIPAL (RAM)                          |
-|   Variáveis Python em execução, Dicionários JSON carregados em memória  |
+| MEMÓRIA PRINCIPAL (RAM) |
+| Variáveis Python em execução, Dicionários JSON carregados em memória |
 +-------------------------------------------------------------------------+
-                                    ▲
-                           BARRAMENTO DE I/O (SATA / NVMe / Flash)
-                                    ▼
+▲
+BARRAMENTO DE I/O (SATA / NVMe / Flash)
+▼
 +-------------------------------------------------------------------------+
-|                   ARMAZENAMENTO SECUNDÁRIO (NÃO-VOLÁTIL)                 |
-|   registros_colonia.txt  |  dados_colonia.json  |  historico_respostas.txt |
+| ARMAZENAMENTO SECUNDÁRIO (NÃO-VOLÁTIL) |
+| registros_colonia.txt | dados_colonia.json | historico_respostas.txt |
 +-------------------------------------------------------------------------+
-```
+
 
 1. **Memória Volátil (RAM)**: Quando o sistema executa `ler_dados_colonia()`, o interpretador Python aloca estruturas de dicionários e listas na memória RAM. Qualquer alteração nessas variáveis existe apenas enquanto o processo estiver ativo.
 2. **Armazenamento Não-Volátil (Disco/Flash)**: Dispositivos de armazenamento secundário preservam os registros mesmo se houver queda total de energia na colônia marciana.
@@ -125,6 +125,7 @@ A manipulação de arquivos em Python reflete diretamente a arquitetura de hardw
    - O **Barramento de Dados** transporta o fluxo binário gravado via chamada `open(..., 'w')`.
 
 ---
+'''
 
 ## 🧮 Lógica Booleana e Teoremas de Simplificação (De Morgan)
 
@@ -210,7 +211,6 @@ No terminal, execute o arquivo principal:
 ```bash
 python codigo_fonte.py
 ```
-*(Também é possível iniciar via `python menu.py`).*
 
 ### 3. Como Executar a Validação das Regras Lógicas
 Para testar todas as combinações da tabela-verdade:
@@ -240,14 +240,14 @@ O vídeo de apresentação deve ser postado no **YouTube como "Não listado"** c
 ### [01:00 - 01:45] 3 e 10. Demonstração Prática do Sistema em Python
 - *Ação no vídeo*: Executar `python codigo_fonte.py` no terminal.
 - *Ação*: Mostrar a **Opção 1** (cadastrar um novo registro em TXT) e a **Opção 2** (consultar registros na tela com `readlines`).
-- *Ação*: Mostrar a **Opção 3** (visualizar os módulos e telemetria do JSON).
+- *Ação*: Mostrar a **Opção 7** (visualizar os módulos e telemetria do JSON).
 
 ### [01:45 - 02:30] 5. Regras Lógicas e Simplificação de De Morgan
-- *Ação no vídeo*: Executar a **Opção 4** no menu (ou mostrar `python validacao_regras.py`).
+- *Ação no vídeo*: Executar a **Opção 3** no menu (ou mostrar `python validacao_regras.py`).
 - *Fala sugerida*: "Na disciplina de Computer Science, modelamos 4 regras operacionais. No Cenário 4, aplicamos o Teorema de De Morgan para simplificar a regra de bloqueio emergencial: a negação de que a operação está normal transforma um AND negado em um OR de falha de segurança ou inconsistência de dados. A tabela-verdade comprova a equivalência nas 16 combinações."
 
 ### [02:30 - 03:30] 6, 7 e Funcionalidade Integradora Mestre
-- *Ação no vídeo*: Selecionar a **Opção 7 - Analisar alerta operacional (JSON + Booleana + IA)**.
+- *Ação no vídeo*: Selecionar a **Opção 9 - Analisar alerta operacional (JSON + Booleana + IA)**.
 - *Fala sugerida*: "Aqui temos a maior integração do projeto: o sistema lê o alerta gravado em JSON, passa pela validação booleana simplificada para atestar criticidade, injeta os dados em um prompt estruturado de IA e gera a recomendação padronizada ao centro de controle, salvando o histórico."
 - *Ação*: Explicar rapidamente as técnicas Zero-shot, Few-shot e Structured Outputs mostradas no PDF `prompts_utilizados.pdf`.
 

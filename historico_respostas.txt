@@ -1,0 +1,16 @@
+
+PROMPT:
+Analise o registro e responda neste formato:
+STATUS: [NORMAL/ATENÇÃO/CRÍTICA]
+MODULO: [nome]
+PRIORIDADE: [BAIXA/MÉDIA/ALTA]
+PROBLEMA: [descrição]
+RECOMENDACAO: [orientação]
+
+Registro: Módulo: ENERGIA | Ocorrência: Consumo energetico em 520 kW excedendo teto nominal de 500 kW | Avaliação Lógica Booleana: ATENÇÃO (Monitoramento)
+RESPOSTA:
+STATUS:       ATENÇÃO
+MODULO:       ENERGIA
+PRIORIDADE:   MÉDIA
+PROBLEMA:     Consumo energetico em 520 kW excedendo teto nominal de 500 kW
+RECOMENDACAO: Monitorar o módulo e reavaliar na próxima verificação de rotina.

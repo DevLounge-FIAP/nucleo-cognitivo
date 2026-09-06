@@ -22,7 +22,6 @@ ARQUIVOS_COMPLEMENTARES = [
     'regras_logicas.py',
     'ia_generativa.py',
     'validacao_regras.py',
-    'menu.py',
     'README.md',
     'historico_respostas.txt',
 ]

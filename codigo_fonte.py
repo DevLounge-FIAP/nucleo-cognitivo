@@ -1,12 +1,13 @@
 """
 ================================================================================
 PROJETO: Núcleo Cognitivo da Aurora Siger (NCAS)
-ARQUIVO: codigo_fonte.py (funções de arquivo, JSON e integração lógica)
-AUTORES: Aelton Soares de Menezes e Equipe da Colônia Aurora Siger
+ARQUIVO: codigo_fonte.py (arquivo principal - arquivos, JSON, regras e menu)
+AUTORES: Aelton Soares de Menezes, Victor Mantovani, Bruno Santos, Maria Eduarda Fernandes, Michelly Santos
 ================================================================================
 """
 
 import json
+import getpass
 from datetime import datetime
 
 from regras_logicas import gerar_alerta, bloquear_operacao
@@ -270,3 +271,83 @@ def analisar_alerta_operacional() -> None:
     print("\n[RESPOSTA SIMULADA DA IA]")
     print(resposta_ia)
     print("\nEvento arquivado em 'historico_respostas.txt'.")
+
+
+# ==============================================================================
+# MENU DE NAVEGAÇÃO NO TERMINAL (antes em menu.py)
+# ==============================================================================
+
+def menu() -> None:
+    """Ponto único de interação do usuário com o NCAS."""
+    while True:
+        print("\n=== NÚCLEO COGNITIVO DA AURORA SIGER (NCAS) ===")
+        print("1. Cadastrar registro da colônia")
+        print("2. Consultar registros salvos")
+        print("3. Executar validação lógica")
+        print("4. Ver palavras-chave que a IA reconhece")
+        print("5. Exibir prompt estruturado")
+        print("6. Simular resposta do assistente IA")
+        print("7. Visualizar status da colônia (JSON)")
+        print("8. Cadastrar novo alerta (JSON)")
+        print("9. Analisar alerta operacional (JSON + Booleana + IA)")
+        print("10. Limpar registros")
+        print("0. Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            mensagem = input("Digite o registro: ")
+            data_hora = datetime.now().strftime("%d/%m %H:%M")
+            usuario = getpass.getuser()
+            linha_formatada = f"[Data e Hora: {data_hora} Usuário: {usuario}]: {mensagem}"
+
+            if cadastrar_registro(linha_formatada):
+                print("Registro salvo com sucesso.")
+            else:
+                print("Falha ao salvar o registro. Verifique os logs do sistema.")
+
+        elif opcao == "2":
+            registros = ler_registro()
+            if not registros:
+                print("Nenhum registro encontrado.")
+            else:
+                for indice, registro in enumerate(registros, start=1):
+                    print(f"Registro {indice}: {registro}")
+
+        elif opcao == "3":
+            validar_regras_logicas()
+
+        elif opcao == "4":
+            ia_generativa.listar_topicos_disponiveis()
+
+        elif opcao == "5":
+            ia_generativa.exibir_prompt_estruturado()
+
+        elif opcao == "6":
+            ia_generativa.simulador_resposta_ia()
+
+        elif opcao == "7":
+            exibir_status_colonia()
+
+        elif opcao == "8":
+            cadastrar_novo_alerta_json()
+
+        elif opcao == "9":
+            analisar_alerta_operacional()
+
+        elif opcao == "10":
+            if limpar_registros():
+                print("Registros limpos com sucesso.")
+            else:
+                print("Erro ao limpar registros. Verifique os logs do sistema.")
+
+        elif opcao == "0":
+            print("Encerrando o sistema...")
+            break
+
+        else:
+            print("Opção inválida, tente novamente.")
+
+
+if __name__ == "__main__":
+    menu()
